@@ -1,3 +1,2 @@
-newsapi-python
 requests
 faster-whisper

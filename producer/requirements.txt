@@ -1,2 +1,4 @@
 requests
 openai-whisper
+pytube
+pydub

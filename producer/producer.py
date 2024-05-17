@@ -4,7 +4,7 @@ import requests
 LOGSTASH_URL = "http://logstash:9700"
 
 print("Audio analysis in process...")
-model = whisper.load_model("medium")
+model = whisper.load_model("tiny")
 result = model.transcribe("audio.mp3")
 print(result["text"])
 

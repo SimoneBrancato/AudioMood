@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>AudioMood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    <h1>Enter a YouTube URL</h1>
-    <form action="/submit" method="post">
-        <label for="text">Enter a valid YouTube URL:</label>
-        <input type="text" id="user_input" name="user_input">
-        <button type="submit">Submit</button>
-      </form>
+    <div class="container">
+        <img src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}" width="200" height="70">
+        <form action="/submit" method="post">
+            <label for="text">Enter a valid YouTube URL:</label>
+            <input type="text" id="user_input" name="user_input">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>

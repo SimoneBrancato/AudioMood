@@ -78,13 +78,25 @@ services:
       timeout: 10s
       retries: 5
 
-
   producer:
     build:
       context: producer/
       dockerfile: ./Dockerfile
     image: audiomood_producer
     container_name: producer
+    ports:
+      - "5001:5001"
     depends_on:
       logstash:
         condition: service_healthy
+
+  flask:
+    build:
+      context: app/
+      dockerfile: ./Dockerfile
+    image: flask
+    ports:
+      - "5000:5000"
+    depends_on:
+      producer:
+        condition: service_started

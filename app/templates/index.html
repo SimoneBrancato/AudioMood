@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <head>
     <meta charset="UTF-8">
     <title>AudioMood</title>
@@ -8,11 +9,25 @@
 <body>
     <div class="container">
         <img src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}" width="200" height="70">
-        <form action="/submit" method="post">
-            <label for="text">Enter a valid YouTube URL:</label>
-            <input type="text" id="user_input" name="user_input">
-            <button type="submit">Submit</button>
-        </form>
+        
+        {%if not response_text%}
+            <form id="urlForm" action="/analysis" method="post">
+                <label for="text">Enter a valid YouTube URL:</label>
+                <input type="text" id="user_input" name="user_input">
+                <button type="submit" id="submitButton">Submit</button>
+            </form>
+        {% endif %}
+
+        {% if response_text %}
+            <p>Data received and processed successfully.</p>
+            <p>File: {{ response_text }}</p>
+        {% endif %}
     </div>
+
+    <script>
+        document.getElementById('urlForm').addEventListener('submit', function() {
+            document.getElementById('submitButton').disabled = true;
+        });
+    </script>
 </body>
 </html>

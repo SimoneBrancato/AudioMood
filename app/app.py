@@ -7,11 +7,11 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/submit', methods=['POST'])
+@app.route('/analysis', methods=['POST'])
 def submit():
     user_input = request.form['user_input']
     response = requests.post('http://producer:5001/send', json={'user_input': user_input}) 
-    return response.text
+    return render_template('index.html', response_text=response.text)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

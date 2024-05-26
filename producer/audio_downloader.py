@@ -3,7 +3,7 @@ from pytube import YouTube
 from pydub import AudioSegment
 
 def get_youtube_audio(url, output_path='audio'):
-    # Create the output directory if it doesn't exist
+    
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 

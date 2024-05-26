@@ -1,6 +1,6 @@
 import whisper
 import requests
-from split_string import split_string
+from split_string import split_into_chunks
 from audio_downloader import get_youtube_audio
 from flask import Flask, request
 import os
@@ -17,7 +17,7 @@ def send():
     print("Audio analysis in process...")
     model = whisper.load_model("tiny")
     result = model.transcribe(mp3_file)
-    phrases = split_string(result["text"], max_words=20)
+    phrases = split_into_chunks(result["text"], chunk_size=20)
 
     for phrase in phrases:
         print("Sending to Logstash \""+phrase+"\".")

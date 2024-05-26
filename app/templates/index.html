@@ -9,19 +9,25 @@
 <body>
     <div class="container">
         <img src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}" width="200" height="70">
-        
-        {%if not response_text%}
-            <form id="urlForm" action="/analysis" method="post">
-                <label for="text">Enter a valid YouTube URL:</label>
-                <input type="text" id="user_input" name="user_input">
-                <button type="submit" id="submitButton">Submit</button>
-            </form>
-        {% endif %}
+        <form class="form" id="urlForm" method="post" action="/analysis">
 
-        {% if response_text %}
-            <p>Data received and processed successfully.</p>
-            <p>File: {{ response_text }}</p>
-        {% endif %}
+            <div id="label">
+                <label id="size" for="model">Size:</label>
+                <label id="url" for="text">YouTube URL:</label>
+            </div>
+            
+            <div id="form">
+                
+                <select class="select-box" name="model_size">
+                    <option value="base">Base</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                </select>
+                            
+                <input type="text" id="user_input" name="user_input">
+                <button type="submit" id="submitButton" action="/analysis">Submit</button>
+            </div>
+        </form>
     </div>
 
     <script>

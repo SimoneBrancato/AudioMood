@@ -47,10 +47,10 @@ services:
     entrypoint: [ '/bin/sh', '-c' ]
     command: |
       "
-      echo -e 'Creating Kafka topic.'
+      echo 'Creating Kafka topic.'
       kafka-topics.sh --create --topic main --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1 --if-not-exists
 
-      echo -e 'Successfully updated topic list:'
+      echo 'Successfully updated topic list:'
       kafka-topics.sh --list --bootstrap-server kafka:9092
       "
 

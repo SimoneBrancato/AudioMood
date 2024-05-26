@@ -11,13 +11,16 @@ LOGSTASH_URL = "http://logstash:9700"
 @app.route('/send', methods=['POST'])
 def send():
     url = request.get_json()['user_input']
-    
+    model_size = request.get_json()['model_size']
     mp3_file = get_youtube_audio(url)
+    
+    print(f"OpenAI Whisper model size set to {model_size}")
+    model = whisper.load_model(model_size)
 
     print("Audio analysis in process...")
-    model = whisper.load_model("tiny")
     result = model.transcribe(mp3_file)
-    phrases = split_into_chunks(result["text"], chunk_size=20)
+    
+    phrases = result["text"].split(".")
 
     for phrase in phrases:
         print("Sending to Logstash \""+phrase+"\".")

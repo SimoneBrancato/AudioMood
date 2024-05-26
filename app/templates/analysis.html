@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>AudioMood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}" width="200" height="70">
+        
+        <p>Data received and processed successfully. <br> File: {{ file_name }}</p>
+        
+    </div>
+
+</body>
+</html>

@@ -1,6 +1,5 @@
 import whisper
 import requests
-from split_string import split_into_chunks
 from audio_downloader import get_youtube_audio
 from flask import Flask, request
 import os

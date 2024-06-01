@@ -7,6 +7,10 @@ import os
 app = Flask(__name__)
 LOGSTASH_URL = "http://logstash:9700"
 
+def splitter(text, max_words):
+    pieces = text.split()
+    return (" ".join(pieces[i:i+max_words]) for i in range(0, len(pieces), max_words))
+
 @app.route('/send', methods=['POST'])
 def send():
     url = request.get_json()['user_input']
@@ -19,9 +23,9 @@ def send():
     print("Audio analysis in process...")
     result = model.transcribe(mp3_file)
     
-    phrases = result["text"].split(".")
+    # phrases = result["text"].split(".")
 
-    for phrase in phrases:
+    for phrase in splitter(text = result["text"], max_words = 10):
         print("Sending to Logstash \""+phrase+"\".")
         data = { 
         'message': phrase

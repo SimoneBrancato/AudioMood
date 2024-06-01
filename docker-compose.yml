@@ -36,31 +36,28 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: PLAINTEXT://kafka:9092
 
   spark:
-    build:
-      context: ./spark
-      dockerfile: Dockerfile
+    build: 
+      context: spark/
+      dockerfile: ./Dockerfile
+    hostname: spark
     container_name: spark
-    environment:
-      - SPARK_ACTION=bash
-      - SPARK_MASTER_URL=spark://spark-master:7077
-      - SPARK_DEPLOY_MODE=client
-      - SPARK_APPLICATION_PYTHON_FILES=/opt/spark-app/spark_code.py
     volumes:
-      - ./spark/code:/opt/spark-app
-    deploy:
-      resources:
-        limits:
-          cpus: '4.0'
-          memory: 3g
-    ports:
-      - '8081:8080'
-      - '7077:7077'
-      - '4040:4040'
+      - ./spark/code/:/opt/tap/
+    command: > 
+      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1  /opt/tap/mastodon_stream_nml.py
     depends_on:
-      - producer
-      - kafka
-    command: spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0 --master local[*] /opt/spark-app/script.py
-                                    
+      init-kafka:
+        condition: service_completed_successfully
+      producer:
+        condition: service_started
+
+   #elasticsearch:
+    #image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4                      ,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4
+      #environment:
+      #- discovery.type=single-node
+      #- xpack.security.enabled=false
+    #mem_limit: 1 GB  
+
   init-kafka:
     image: bitnami/kafka:3.7.0
     container_name: init-kafka

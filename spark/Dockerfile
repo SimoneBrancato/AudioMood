@@ -1,9 +1,11 @@
-FROM docker.io/bitnami/spark:3.5
+FROM apache/spark:3.4.2
 
-WORKDIR /opt/spark
+USER 0
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install numpy
+
+USER spark
+
 
 
 

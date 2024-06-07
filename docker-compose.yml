@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
 
   kafka:
@@ -44,20 +44,47 @@ services:
     volumes:
       - ./spark/code/:/opt/tap/
     command: > 
-      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1  /opt/tap/mastodon_stream_nml.py
+      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4  /opt/tap/am_sentiment_analysis.py
     depends_on:
       init-kafka:
         condition: service_completed_successfully
       producer:
         condition: service_started
 
-   #elasticsearch:
-    #image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4                      ,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4
-      #environment:
-      #- discovery.type=single-node
-      #- xpack.security.enabled=false
-    #mem_limit: 1 GB  
+  elasticsearch:                                           
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: elasticsearch                   
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - http.port=9200
+    ports:
+      - "9200:9200"
+    mem_limit: 1 GB
 
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.7.1
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    volumes:
+      - ./kibana/config:/usr/share/kibana/config
+    ports:
+      - "5601:5601"
+    mem_limit: 1 GB
+    depends_on:
+      - elasticsearch
+  
+  init-kibana:
+    image: curlimages/curl:8.8.0
+    container_name: init-kibana
+    volumes:
+      - ./kibana/data/export.ndjson:/export.ndjson
+      - ./kibana/load-dashboard.sh:/usr/share/kibana/load-dashboard.sh
+    command: ["/bin/sh", "/usr/share/kibana/load-dashboard.sh"]
+    depends_on:
+      - kibana
+      
   init-kafka:
     image: bitnami/kafka:3.7.0
     container_name: init-kafka
@@ -66,7 +93,9 @@ services:
         condition: service_started
       kafka-ui:
         condition: service_started
-    entrypoint: [ '/bin/sh', '-c' ]
+      elasticsearch:
+        condition: service_started
+    entrypoint: ['/bin/sh', '-c']
     command: |
       "
       echo 'Creating Kafka topic.'
@@ -91,11 +120,12 @@ services:
     depends_on:
       - kafka
       - kafka-ui
+      - elasticsearch
     healthcheck:
       test: ["CMD-SHELL", "curl --silent --fail http://localhost:9700 || exit 1"]
-      interval: 20s
-      timeout: 20s
-      retries: 5
+      interval: 30s
+      timeout: 30s
+      retries: 10
 
   producer:
     build:

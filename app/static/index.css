@@ -10,8 +10,7 @@ body {
 }
 
 .container {
-    width: 1000px;
-    max-width: 90%;
+    width: 100%;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -19,7 +18,7 @@ body {
     text-align: center;
     align-items: center;
     position: absolute;
-    top: 18%;
+    top: 12%;
     transform: translateY(-50%);
     justify-content: center; 
 

@@ -22,14 +22,15 @@ def send():
 
     print("Audio analysis in process...")
     result = model.transcribe(mp3_file)
-    
-    # phrases = result["text"].split(".")
 
-    for phrase in splitter(text = result["text"], max_words = 10):
+    for phrase in splitter(text = result["text"], max_words = 6):
+
         print("Sending to Logstash \""+phrase+"\".")
+
         data = { 
         'message': phrase
         }
+        
         requests.post(LOGSTASH_URL, json=data)
 
     return os.path.basename(mp3_file)

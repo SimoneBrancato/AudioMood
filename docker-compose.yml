@@ -35,16 +35,15 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: PLAINTEXT://kafka:9092
 
-  spark:
-    build: 
+  sparknlp:
+    build:
       context: spark/
       dockerfile: ./Dockerfile
-    hostname: spark
-    container_name: spark
+    container_name: spark  
     volumes:
-      - ./spark/code/:/opt/tap/
+      - ./spark/code/:/code
     command: > 
-      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4  /opt/tap/am_sentiment_analysis.py
+      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --conf spark.jsl.settings.pretrained.cache_folder="/tmp" --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.3,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4  /code/am_sparknlp.py
     depends_on:
       init-kafka:
         condition: service_completed_successfully
@@ -84,6 +83,7 @@ services:
     command: ["/bin/sh", "/usr/share/kibana/load-dashboard.sh"]
     depends_on:
       - kibana
+      - flask
       
   init-kafka:
     image: bitnami/kafka:3.7.0

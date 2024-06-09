@@ -1,54 +1,75 @@
 from pyspark.sql import SparkSession
+from sparknlp.pretrained import PretrainedPipeline
+from pyspark.conf import SparkConf
+import pyspark.sql.types as tp
 from pyspark.sql.functions import from_json
-from pyspark.sql.types import StructType, StructField, StringType
-import pyspark.sql.functions as F
+from pyspark.sql.functions import col, explode
 
-
-modelPath="/opt/tap/models/sentitap"
-topic="main"
 kafkaServer="kafka:9092"
+topic = "main"
+elastic_index="audiomood_log"
 
+# Define Spark connection to ElasticSearch
+print("Defining SparkConf")
+sparkConf = SparkConf().set("es.nodes", "elasticsearch") \
+                        .set("es.port", "9200") \
+                        .set("spark.driver.memory","64G") \
+                        .set("spark.driver.maxResultSize", "0") \
+                        .set("spark.kryoserializer.buffer.max", "2000M") \
+                        .set("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.3")
+
+# Define kafka messages structure
+kafka_schema = tp.StructType([
+    tp.StructField('@timestamp', tp.StringType(), True),
+    tp.StructField('message', tp.StringType(), True)
+])
+
+# Build Spark Session in SparkNLP mode
+print("Starting Spark Session")
 spark = SparkSession.builder \
-                    .appName("AudioMoodML") \
-                    .getOrCreate()
+    .appName("Spark NLP") \
+    .master("local[16]") \
+    .config(conf=sparkConf) \
+    .getOrCreate()
 
 # To reduce verbose output
 spark.sparkContext.setLogLevel("ERROR") 
 
-kafka_schema = StructType([
-    StructField('@timestamp', StringType(), True),
-    StructField('@version', StringType(), True), 
-    StructField('host', StringType(), True),
-    StructField('message', StringType(), True)
-])
+# Read the stream from Kafka
+print("Reading stream from kafka...")
+df = spark \
+    .readStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", kafkaServer) \
+    .option("subscribe", topic) \
+    .load()
 
-# Define Training Set Structure
-""" tweet_schema = StructType([
-    StructField(name= 'id', dataType=StringType(), nullable= True),
-    StructField(name= 'created_at', dataType=StringType(), nullable= True),
-    StructField(name= 'content', dataType=StringType(), nullable= True)
-]) """
+# Select relevant data from dataframe
+df = df.selectExpr("CAST(value AS STRING)") \
+    .select(from_json("value", kafka_schema).alias("data")) \
+    .select("data.@timestamp",col("data.message").alias("text"))
 
+# Set up Pretrained Pipeline
+pipeline = PretrainedPipeline('analyze_sentiment', lang='en')
 
-streaming_df = spark.readStream \
-                    .format("kafka") \
-                    .option("kafka.bootstrap.servers", kafkaServer) \
-                    .option("subscribe", topic) \
-                    .load()
-
-                    #.option("startingOffsets", "earliest") \
-
-json_df = streaming_df.selectExpr("cast(value as string)")
-json_expanded_df = json_df.withColumn("value", from_json(json_df["value"], kafka_schema)).select("value.message")
+# Function to process each batch of data
+df1 = pipeline.transform(df)
 
 
+df1 = df1.select(
+        col("@timestamp"),
+        col("text"),
+        explode(col("sentiment")).alias("sentiment_exploded")
+    ).select(
+        col("@timestamp"),
+        col("text"),
+        col("sentiment_exploded.result").alias("sentiment"),
+        col("sentiment_exploded.metadata")["confidence"].alias("confidence")
+    )
 
-query = json_expanded_df.writeStream \
-    .outputMode("append") \
-    .format("console") \
-    .option("truncate", "false") \
-    .option("numRows", "1000") \
-    .start()
-
-
-query.awaitTermination()
+df1.writeStream \
+   .option("checkpointLocation", "/tmp/") \
+   .option("failOnDataLoss", "false") \
+   .format("es") \
+   .start(elastic_index) \
+   .awaitTermination()

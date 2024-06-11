@@ -1,3 +1,0 @@
-pyspark==3.2.3
-numpy
-spark-nlp==5.3.3

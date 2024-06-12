@@ -35,15 +35,30 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: PLAINTEXT://kafka:9092
 
-  sparknlp:
+  spark-sa:
     build:
       context: spark/
       dockerfile: ./Dockerfile
-    container_name: spark  
+    container_name: spark-sa  
     volumes:
       - ./spark/code/:/code
     command: > 
-      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --conf spark.jsl.settings.pretrained.cache_folder="/tmp" --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.3,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4  /code/script.py
+      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --conf spark.jsl.settings.pretrained.cache_folder="/tmp" --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.3,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4  /code/sentiment_analysis.py
+    depends_on:
+      init-kafka:
+        condition: service_completed_successfully
+      producer:
+        condition: service_started
+
+  spark-er:
+    build:
+      context: spark/
+      dockerfile: ./Dockerfile
+    container_name: spark-er
+    volumes:
+      - ./spark/code/:/code
+    command: > 
+      /opt/spark/bin/spark-submit --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" --conf spark.jsl.settings.pretrained.cache_folder="/tmp" --packages com.johnsnowlabs.nlp:spark-nlp_2.12:5.3.3,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.elasticsearch:elasticsearch-spark-30_2.12:8.13.4  /code/entities_recognition.py
     depends_on:
       init-kafka:
         condition: service_completed_successfully
@@ -59,7 +74,6 @@ services:
       - http.port=9200
     ports:
       - "9200:9200"
-    mem_limit: 1 GB
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.7.1
@@ -70,7 +84,6 @@ services:
       - ./kibana/config:/usr/share/kibana/config
     ports:
       - "5601:5601"
-    mem_limit: 1 GB
     depends_on:
       - elasticsearch
   
@@ -99,8 +112,9 @@ services:
     command: |
       "
       echo 'Creating Kafka topic.'
-      kafka-topics.sh --create --topic main --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1 --if-not-exists
-
+      kafka-topics.sh --create --topic sentiment --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1 --if-not-exists
+      kafka-topics.sh --create --topic entities --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1 --if-not-exists
+      
       echo 'Successfully updated topic list:'
       kafka-topics.sh --list --bootstrap-server kafka:9092
       "

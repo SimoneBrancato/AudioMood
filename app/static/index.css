@@ -87,6 +87,16 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+#analysis_container {
+    top: 12%;
+}
+
+#kibana_dashboard {
+    position: absolute;
+    top: 18%
+}
+
+
 #label {
     display: flex;
     flex-direction: row;

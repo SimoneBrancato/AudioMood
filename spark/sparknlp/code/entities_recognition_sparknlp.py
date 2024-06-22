@@ -16,7 +16,6 @@ kafka_schema = tp.StructType([
     tp.StructField('message', tp.StringType(), True)
 ])
 
-
 # Define Spark connection to ElasticSearch
 print("Defining SparkConf")
 sparkConf = SparkConf().set("es.nodes", "elasticsearch") \

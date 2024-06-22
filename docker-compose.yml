@@ -168,8 +168,6 @@ services:
     container_name: producer
     ports:
       - "5001:5001"
-    volumes:
-      - ./producer/whisper:/whisper
     depends_on:
       logstash:
         condition: service_healthy

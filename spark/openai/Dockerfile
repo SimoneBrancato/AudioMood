@@ -2,9 +2,10 @@ FROM apache/spark:3.4.2
 
 USER 0
 
-RUN pip install --upgrade pip
+COPY requirements.txt ./
 
-RUN pip3 install spark-nlp==5.3.3 openai python-dotenv
+RUN pip install --upgrade pip
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 RUN apt-get update
 RUN apt-get install -y openjdk-11-jdk

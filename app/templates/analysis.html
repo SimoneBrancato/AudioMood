@@ -8,12 +8,11 @@
 </head>
 <body>
     <div id="analysis_container" class="container">
-        <img src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}" width="200" height="70">
+        <img class ="am_logo_analysis" src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}">
         <p>{{ file_name }}</p>
-        <!-- <button type="reload" id="submitButton" action="/analysis_reload">Reload Dashboard</button> -->
     </div>
 
-    <iframe id="kibana_dashboard" src="http://localhost:5601/app/dashboards#/view/0eca9f90-2b21-11ef-86e3-719361a0530a?&_g=(refreshInterval:(pause:!t,value:60000),time:(from:'2024-06-15T13:25:43.231Z',to:now))&_a=()" height="800" width=100%></iframe>
+    <iframe id="kibana_dashboard" src="http://localhost:5601/app/dashboards#/view/0eca9f90-2b21-11ef-86e3-719361a0530a?&_g=(refreshInterval:(pause:!t,value:60000),time:(from:'2024-06-15T13:25:43.231Z',to:now))&_a=()" height=87% width=100%></iframe>
 
 </body>
 </html>

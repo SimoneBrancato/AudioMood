@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background: linear-gradient( #f9f9f9 0%, #c7c7c7 50%);
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,19 +9,155 @@ body {
     height: 100vh;
 }
 
+.am_logo {
+    mix-blend-mode: multiply;
+    width: 270px;
+    height: 100px;
+    padding-top: 40px
+}
+
+.am_logo_analysis {
+    mix-blend-mode: multiply;
+    width: 135px;
+    height: 50px;
+    padding-top: 60px
+}
+
 .container {
     width: 100%;
     padding: 20px;
-    background-color: #fff;
+    background: linear-gradient( #ffffff 0%, #b6afaf 100%);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
     align-items: center;
     position: absolute;
-    top: 12%;
+    top: 11%;
     transform: translateY(-50%);
     justify-content: center; 
 
+}
+
+ .instructions {
+    width: 70%;
+    max-width: 400px;
+    padding: 30px;
+    background: linear-gradient(#aeaeae 0%, #5d5d5d 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 60%;
+    transform: translate(-60%, -50%);
+    font-family: 'Arial', sans-serif;
+
+}
+
+.instructions h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 1);
+    text-align: center;
+
+}
+
+.instructions ul {
+    padding: 0;
+    list-style: none;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+.instructions ul li {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+    margin-left: 15px;
+}
+
+.am_tutorial ul ul li {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #fff;
+    display: flex;
+
+}
+
+.symbolStar {
+    display: flex;
+    margin-bottom: 5px;
+    position: absolute;
+    transform: translate(-20px, -8px);
+    color: red;
+    font-size: 1.25em;
+    margin-right: 10px
+}
+ 
+.am_tutorial {
+    width: 40%;
+    max-width: 450px;
+    height: 250px;
+    padding: 30px;
+    background: linear-gradient(#aeaeae 0%, #5d5d5d 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 60%;
+    transform: translate(60%, -50%);
+    font-family: 'Arial', sans-serif;
+}
+
+.am_tutorial h1 {
+    font-size: 1.5em;
+    color: #fff;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 1);
+    text-align: center;
+}
+
+.am_tutorial ul {
+    padding: 0;
+    list-style: none;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+}
+
+.instructions ul ul li:before {
+    content: '•';
+    color: #ff1f1f;
+    font-size: 1.2em;
+    margin-right: 10px;
+    padding-left: 30px; 
+    list-style: none;
+    align-items: flex-start;
+    vertical-align: middle; 
+}
+
+.am_tutorial ul li {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+    margin-left: 15px;
+}
+
+.instructions ul ul li {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #fff;
+    display: flex;
+}
+
+
+.am_tutorial ul ul li:before {
+    content: '•';
+    color: #ff1f1f;
+    font-size: 1.2em;
+    margin-right: 10px;
+    padding-left: 30px; 
+    list-style: none;
+    align-items: flex-start;
+    vertical-align: middle; 
 }
 
 form {
@@ -71,7 +207,7 @@ input {
 }
 
 button[type="submit"] {
-    background-color: #007bff;
+    background-color: #ff0000;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -84,18 +220,17 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #b90000;
 }
 
 #analysis_container {
-    top: 12%;
+    top: 4%;
 }
 
 #kibana_dashboard {
     position: absolute;
-    top: 18%
+    top: 13%
 }
-
 
 #label {
     display: flex;

@@ -65,8 +65,10 @@ def get_summary(text):
     else:
         print(f"API_KEY loaded successfully: {OPENAI_API_KEY[:4]}...") 
 
+    # Get connection to OpenAI
     client = OpenAI(api_key=OPENAI_API_KEY)
 
+    # Send request to GPT-3.5-Turbo for text summarization
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
             messages=[
@@ -75,13 +77,14 @@ def get_summary(text):
             ]
         )
     
+    # Select message content
     response_dict = json.loads(response.model_dump_json())
     summary = response_dict["choices"][0]["message"]["content"]
 
     return summary
 
+# Transform Dataframe adding Summary Column
 get_summary_udf = udf(get_summary, tp.StringType())
-
 df = df.withColumn("summary", get_summary_udf(col("text"))).select("timestamp", "summary")
 
 # Send data to ElasticSearch

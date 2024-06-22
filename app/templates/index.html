@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}" width="200" height="70">
+        <img class="am_logo" src="{{ url_for('static', filename='AudioMoodLogo.jpg') }}">
         <form class="form" id="urlForm" method="post" action="/analysis">
 
             <div id="label">
@@ -29,6 +29,39 @@
                 <button type="submit" id="submitButton" action="/analysis">Submit</button>
             </div>
         </form>
+    </div>
+
+    <div class="instructions">
+        <h1>How to use</h1>
+        <ul>
+            <li> <a class="symbolStar">★</a> Choose a model size for audio to text transcription:</li>
+                <ul>
+                    <li> Tiny (1GB VRAM)</li>
+                    <li> Base (2GB VRAM)</li>
+                    <li> Small (2GB VRAM)</li>
+                    <li> Medium (4GB VRAM)</li>
+                </ul>
+            <li> <a class="symbolStar">★</a>  Paste a YouTube URL and click Submit</li>
+            <li> <a class="symbolStar">★</a>  Wait a couple of minutes...</li>
+            <li> <a class="symbolStar">★</a>  Enjoy your sentiment analysis, tags recognition and summarization on your video!</li>
+        </ul>
+    </div>
+
+    <div class="am_tutorial">
+        <h1>AudioMood Features</h1>
+        <ul>
+            <li> <a class="symbolStar">★</a> Summarize video content</li>
+            <li> <a class="symbolStar">★</a> Sentiment analysis:</li>
+            <ul>
+                <li>Evaluate each phrase as positive, neutral or negative</li>
+                <li>Check sentiment over time</li>
+            </ul>
+            <li> <a class="symbolStar">★</a> Tags recognition:</li>
+            <ul>
+                <li>Top 10 tags by count</li>
+                <li>Check Top 5 tags position on video</li>
+            </ul>
+        </ul>
     </div>
 
     <script>

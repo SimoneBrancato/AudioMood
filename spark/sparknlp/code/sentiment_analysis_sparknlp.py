@@ -6,7 +6,7 @@ from pyspark.sql import SparkSession
 from pyspark.conf import SparkConf
 import pyspark.sql.types as tp
 from pyspark.sql.functions import from_json
-from pyspark.sql.functions import col, explode, map_values
+from pyspark.sql.functions import col
 
 kafkaServer = "kafka:9092"
 topic = "sentiment"

@@ -27,7 +27,7 @@ Then go to [localhost:5000]()
 - **KafkaUI:** [localhost:8080]()
 - **Kibana:** [localhost:5601]()
 
-## Project Structure
+## Project Architecture
 The user needs to input a YouTube URL of the video they want to analyze and select the OpenAI Whisper model size for audio-to-text transcription. A **producer** service in Python will download the video's audio in mp3 format, send it to **OpenAI Whisper** for full transcription, and forward the entire text to **Logstash**, which provides data ingestion. The producer will split the text into chunks (about 15 words each) and send each chunk to Logstash for sentiment analysis and keyword recognition. Logstash will distribute each message to a **Kafka** broker across three different topics: summary, entities, and sentiment. Kafka provides data streaming in **KRaft** mode.
 
 Three different services in **Spark** will read data from Kafka topics:

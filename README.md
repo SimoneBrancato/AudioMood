@@ -1,4 +1,4 @@
-<img src="images\AudioMoodLogo.jpg" width=50% height=50%/>
+<img src="images\AudioMoodLogo.jpg" width=70% height=70%/>
 
 ## What is AudioMood
 AudioMood offers advanced analysis features for YouTube videos, including sentiment analysis (positive, neutral, negative), keyword/tag recognition, and text summarization.
@@ -37,7 +37,7 @@ Three different services in **Spark** will read data from Kafka topics:
 
 Each Spark service will send data to a different **Elasticsearch** index for data indexing. In the end, **Kibana** will then provide data visualization for each feature, and the user will be able to see the embedded Kibana dashboard on their User Interface.
 
-<img src="images\project-architecture.jpg" width="900" height="550" />
+<img src="images\project-architecture.jpg" width=80% height=80%/>
 
 ## Contacts
 - **E-Mail:** simonebrancato18@gmail.com | simonealfio.brancato@gmail.com

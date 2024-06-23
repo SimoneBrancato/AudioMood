@@ -37,7 +37,7 @@ Three different services in **Spark** will read data from Kafka topics:
 
 Each Spark service will send data to a different **Elasticsearch** index for data indexing. In the end, **Kibana** will then provide data visualization for each feature, and the user will be able to see the embedded Kibana dashboard on their User Interface.
 
-<img src="images\project-architecture.jpg" width=80% height=80%/>
+<img src="images\project-architecture.jpg"/>
 
 ## Contacts
 - **E-Mail:** simonebrancato18@gmail.com | simonealfio.brancato@gmail.com

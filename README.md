@@ -40,7 +40,7 @@ Each Spark service will send data to a different **Elasticsearch** index for dat
 <img src="images\project-architecture.jpg" width="900" height="550" />
 
 ## Contacts
-- **E-Mail:** simonebrancato18@gmail.com | simonealfio.brancato18@gmail.com
+- **E-Mail:** simonebrancato18@gmail.com | simonealfio.brancato@gmail.com
 - **LinkedIn:** [Simone Brancato](https://www.linkedin.com/in/simonebrancato18/)
 - **GitHub:** [Simone Brancato](https://github.com/SimoneBrancato)
 

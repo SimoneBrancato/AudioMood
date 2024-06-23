@@ -1,5 +1,5 @@
 <img src="images\AudioMoodLogo.jpg" width="400" height="140"/>
-
+![](images/project-architecture.jpg)
 ## What is AudioMood
 AudioMood offers advanced analysis features for YouTube videos, including sentiment analysis (positive, neutral, negative), keyword/tag recognition, and text summarization.
 Here’s what AudioMood can provide:

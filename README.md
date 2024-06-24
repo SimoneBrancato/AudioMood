@@ -28,6 +28,8 @@ Then go to [localhost:5000]()
 - **Kibana:** [localhost:5601]()
 
 ## Usage and Dashboards
+
+<img src="images\AudioMood UI.png" width=80% height=80%/>
 <img src="images\AM_Dashboard_1.png" width=80% height=80%/>
 <img src="images\AM_Sentiment_Timeline.png" width=80% height=80%/>
 <img src="images\AM_Entities_Position.png" width=80% height=80%/>

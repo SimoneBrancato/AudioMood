@@ -18,7 +18,7 @@ Here’s what AudioMood can provide:
 ## Let's get started!
 You first need to clone the repository on your local computer. Then, navigate to the application's main directory and execute the following command:
 ```bash
-docker-compose -f docker-compose.yml up --build
+docker-compose up --build --force-recreate
 ```
 Then go to [localhost:5000]()
 
@@ -26,6 +26,11 @@ Then go to [localhost:5000]()
 - **User Interface:** [localhost:5000]()
 - **KafkaUI:** [localhost:8080]()
 - **Kibana:** [localhost:5601]()
+
+## Usage and Dashboards
+<img src="images\AM_Dashboard_1.png" width=80% height=80%/>
+<img src="images\AM_Sentiment_Timeline.png" width=80% height=80%/>
+<img src="images\AM_Entities_Position.png" width=80% height=80%/>
 
 ## Project Architecture
 The user needs to input a YouTube URL of the video they want to analyze and select the OpenAI Whisper model size for audio-to-text transcription. A **producer** service in Python will download the video's audio in mp3 format, send it to **OpenAI Whisper** for full transcription, and forward the entire text to **Logstash**, which provides data ingestion. The producer will split the text into chunks (about 15 words each) and send each chunk to Logstash for sentiment analysis and keyword recognition. Logstash will distribute each message to a **Kafka** broker across three different topics: summary, entities, and sentiment. Kafka provides data streaming in **KRaft** mode.

@@ -1,6 +1,6 @@
 <img src="images\AudioMoodLogo.jpg" width=70% height=70%/>
 
-## What is AudioMood
+## What is AudioMood?
 AudioMood offers advanced analysis features for YouTube videos, including sentiment analysis (positive, neutral, negative), keyword/tag recognition, and text summarization.
 Here’s what AudioMood can provide:
 - **Sentiment Distribution:** A graph with the sentiment distribution percentage.
@@ -29,10 +29,10 @@ Then go to [localhost:5000]()
 
 ## Usage and Dashboards
 
-<img src="images\AudioMood UI.png" width=80% height=80%/>
-<img src="images\AM_Dashboard_1.png" width=80% height=80%/>
-<img src="images\AM_Sentiment_Timeline.png" width=80% height=80%/>
-<img src="images\AM_Entities_Position.png" width=80% height=80%/>
+<img src="images\AudioMood UI.png"/>
+<img src="images\AM_Dashboard_1.png"/>
+<img src="images\AM_Sentiment_Timeline.png"/>
+<img src="images\AM_Entities_Position.png"/>
 
 ## Project Architecture
 The user needs to input a YouTube URL of the video they want to analyze and select the OpenAI Whisper model size for audio-to-text transcription. A **producer** service in Python will download the video's audio in mp3 format, send it to **OpenAI Whisper** for full transcription, and forward the entire text to **Logstash**, which provides data ingestion. The producer will split the text into chunks (about 15 words each) and send each chunk to Logstash for sentiment analysis and keyword recognition. Logstash will distribute each message to a **Kafka** broker across three different topics: summary, entities, and sentiment. Kafka provides data streaming in **KRaft** mode.

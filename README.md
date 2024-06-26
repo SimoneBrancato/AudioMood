@@ -1,7 +1,7 @@
 <img src="images\AudioMoodLogo.jpg" width=70% height=70%/>
 
 ## What is AudioMood?
-AudioMood offers advanced analysis features for YouTube videos, including sentiment analysis (positive, neutral, negative), keyword/tag recognition, and text summarization.
+AudioMood is a dockerized application that offers advanced features for YouTube videos analysis including sentiment analysis (positive, neutral, negative), keyword/tag recognition, and text summarization.
 Here’s what AudioMood can provide:
 - **Sentiment Distribution:** A graph with the sentiment distribution percentage.
 - **Sentiment Timeline:** Sentiment analysis for each phrase (approximately every 15 words) throughout the video.

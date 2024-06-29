@@ -13,14 +13,15 @@ Here’s what AudioMood can provide:
 ## Prerequisites
 - **Docker/Docker Compose:** Ensure you have a fully functional [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installation on your local computer.
 - **OpenAI API Key:** To leverage the power of GPT-3.5-Turbo, [obtain an API key from OpenAI](https://platform.openai.com/api-keys).
-- **Environment Variable:** Create a ".env" file in the main directory and add the line `OPENAI_API_KEY=your-api-key`.
+- **Environment Variable:** Create a `.env` file in the main directory and add the line `OPENAI_API_KEY=your-api-key`.
+<img src="images\docker.jpg" width="300"/>
 
 ## Let's get started!
 You first need to clone the repository on your local computer. Then, navigate to the application's main directory and execute the following command:
 ```bash
-docker-compose up --build --force-recreate
+docker-compose up --build
 ```
-Then go to [localhost:5000]()
+Then go to [localhost:5000](). We recommend to use `docker-compose down` to close the application.
 
 ## Useful links
 - **User Interface:** [localhost:5000]()

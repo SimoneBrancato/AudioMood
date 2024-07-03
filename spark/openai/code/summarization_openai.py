@@ -72,7 +72,7 @@ def get_summary(text):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You must summarize the following text, your response must be long between 1500 and 1700 characters. You are obliged to answer only with the summary, without any additional text. You are obliged to talk about it as a video, given that the following text is an transcription of an audio of a video."},
+                {"role": "system", "content": "You must summarize the following text, your response must be long between 1500 and 1700 characters. I also want you to include some interesting details about the topics discussed. You are obliged to talk about it as a video, given that the following text is an transcription of an audio of a video."},
                 {"role": "user", "content": text}
             ]
         )

@@ -17,11 +17,13 @@ Here’s what AudioMood can provide:
 <img src="images\docker.jpg" width="300"/>
 
 ## Let's get started!
-You first need to clone the repository on your local computer. Then, navigate to the application's main directory and execute the following command:
+You first need to clone the repository on your local computer. For the initial run of the application, navigate to its main directory and execute the following command:
 ```bash
 docker-compose up --build
 ```
-Then go to [localhost:5000](). We recommend to use `docker-compose down` to close the application.
+Then go to [localhost:5000](). 
+
+To stop the application we recommend using `docker-compose down`. To start again your application you won't need the `--build` option, so just type `docker-compose up`.
 
 ## Useful links
 - **User Interface:** [localhost:5000]()
